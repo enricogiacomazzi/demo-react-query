@@ -1,26 +1,35 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {useState} from 'react';
 import './App.css';
+import {useMutation, useQuery, useQueryClient} from 'react-query';
+import {TodoModel} from './todoModel';
+import {deleteTodo, getTodos} from './api';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const App: React.FC = () => {
+
+    const queryClient = useQueryClient();
+    const {isLoading, error, data = []} = useQuery<Array<TodoModel>>('todos', getTodos);
+    const mutation = useMutation(deleteTodo, {onSuccess: () => {queryClient.invalidateQueries('todos')}});
+
+    if (isLoading) {
+        return <h1>loading...</h1>
+    }
+
+    if (error) {
+        return <h1>ERROR!!!</h1>
+    }
+
+    return (
+        <ul>
+            {data?.map(todo => (
+                <li key={todo.id}>
+                    <i className="fa fa-trash" onClick={() => mutation.mutate(todo.id)}/>
+                    <span className="item">
+                        {todo.text}
+                    </span>
+                </li>
+            ))}
+        </ul>
+    )
 }
 
 export default App;

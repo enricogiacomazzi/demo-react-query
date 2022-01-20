@@ -1,0 +1,24 @@
+{
+  "todo": [
+    {
+      "id": 1,
+      "text": "comprare la cioccolata",
+      "done": false
+    },
+    {
+      "id": 2,
+      "text": "studiare react",
+      "done": true
+    },
+    {
+      "id": 3,
+      "text": "coccolare il gatto",
+      "done": false
+    },
+    {
+      "id": 4,
+      "text": "farsi un regalo :)",
+      "done": false
+    }
+  ]
+}
